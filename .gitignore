@@ -1,0 +1,30 @@
+# Build artifacts
+bin/
+build/
+target/
+*.o
+*.so
+*.dylib
+*.a
+*.image
+*.image.fresh
+
+# Factor artifacts
+.factor-roots
+*.factor-image
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+.pytest_cache/
+.coverage
+
+# IDE and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
