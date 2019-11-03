@@ -19,8 +19,12 @@ TUPLE: ring-buffer
 
 :: ring-push ( val ring -- )
     val ring buffer>> ring head>> set-nth
-    ring head>> 1 + ring capacity>> mod ring (>>head)
-    ring size>> ring capacity>> < [ ring size>> 1 + ring (>>size) ] when ;
+    ring head>> 1 + ring capacity>> mod :> new-head
+    ring new-head >>head drop
+    ring size>> ring capacity>> < [
+        ring size>> 1 + :> new-size
+        ring new-size >>size drop
+    ] when ;
 
 :: ring-to-array ( ring -- arr )
     ring size>> 0 = [ { } ] [
@@ -39,8 +43,7 @@ TUPLE: ring-buffer
     ] if ;
 
 :: ring-clear ( ring -- )
-    0 ring (>>head)
-    0 ring (>>size) ;
+    ring 0 >>head 0 >>size drop ;
 
 :: ring-mean ( ring -- mean )
     ring size>> 0 = [ 0.0 ] [
