@@ -18,7 +18,7 @@ TUPLE: ring-buffer
     0 0 ring-buffer boa ;
 
 :: ring-push ( val ring -- )
-    val ring buffer>> ring head>> set-nth
+    val ring head>> ring buffer>> set-nth
     ring head>> 1 + ring capacity>> mod :> new-head
     ring new-head >>head drop
     ring size>> ring capacity>> < [
@@ -28,15 +28,15 @@ TUPLE: ring-buffer
 
 :: ring-to-array ( ring -- arr )
     ring size>> 0 = [ { } ] [
-        ring size>> <array> :> result
+        ring size>> f <array> :> result
         ring size>> ring capacity>> < [
-            0 ring size>> [| i |
-                ring buffer>> i nth result i set-nth
+            ring size>> [| i |
+                i ring buffer>> nth i result set-nth
             ] each-integer
         ] [
-            0 ring capacity>> [| i |
+            ring capacity>> [| i |
                 ring head>> i + ring capacity>> mod :> src-idx
-                ring buffer>> src-idx nth result i set-nth
+                src-idx ring buffer>> nth i result set-nth
             ] each-integer
         ] if
         result
@@ -80,9 +80,9 @@ TUPLE: ring-buffer
         ring ring-to-array natural-sort :> s
         s length :> n
         n 2 mod 1 = [
-            s n 2 /i nth
+            n 2 /i s nth
         ] [
-            s n 2 /i 1 - nth
-            s n 2 /i nth + 2.0 /
+            n 2 /i 1 - s nth
+            n 2 /i s nth + 2.0 /
         ] if
     ] if ;
