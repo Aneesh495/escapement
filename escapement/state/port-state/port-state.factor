@@ -31,7 +31,7 @@ CONSTANT: EV-SYNCHRONIZATION-ACHIEVED   11
         { 9 "STATE_DECISION" }
         { 10 "SYNCHRONIZATION_FAULT" }
         { 11 "SYNCHRONIZATION_ACHIEVED" }
-    } ?at [ "UNKNOWN_EVENT" ] unless ;
+    } ?at [ ] [ drop "UNKNOWN_EVENT" ] if ;
 
 :: sda>listening-transition ( dec -- next-state )
     dec {

@@ -22,7 +22,7 @@ CONSTANT: DECISION-P2 6 ! Passive backup
         { DECISION-S1 "S1 (Slave)" }
         { DECISION-P1 "P1 (Passive)" }
         { DECISION-P2 "P2 (Passive)" }
-    } ?at [ "UNKNOWN" ] unless ;
+    } ?at [ ] [ drop "UNKNOWN" ] if ;
 
 ! Given system priority vector d0 and array of port best foreign vectors erbest:
 ! Computes Ebest (the best overall vector across all ports and d0)

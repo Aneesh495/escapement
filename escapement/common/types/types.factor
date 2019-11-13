@@ -61,7 +61,7 @@ CONSTANT: PORT-STATE-SLAVE         8
         { 6 "PASSIVE" }
         { 7 "UNCALIBRATED" }
         { 8 "SLAVE" }
-    } ?at [ "UNKNOWN" ] unless ;
+    } ?at [ ] [ drop "UNKNOWN" ] if ;
 
 ! Format ClockIdentity as colon-separated hex string
 : clock-identity>string ( clock-id -- str )

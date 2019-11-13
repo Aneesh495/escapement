@@ -39,18 +39,21 @@ IN: escapement.telemetry.json
         port delay-mechanism>> :> dm
         port log-announce-interval>> :> lai
         port log-sync-interval>> :> lsi
+        pid-str ps-str dm lai lsi
         "{\"portIdentity\":\"%s\",\"state\":\"%s\",\"delayMechanism\":%d,\"logAnnounceInterval\":%d,\"logSyncInterval\":%d}"
-        { pid-str ps-str dm lai lsi } sprintf
+        sprintf
     ] map "," join :> ports-json
 
+    cid-str dom p1 p2 cclass offset-ns drift-ppb ports-json
     "{\"clockIdentity\":\"%s\",\"domainNumber\":%d,\"priority1\":%d,\"priority2\":%d,\"clockClass\":%d,\"offsetNanoseconds\":%.3f,\"frequencyDriftPpb\":%.3f,\"ports\":[%s]}"
-    { cid-str dom p1 p2 cclass offset-ns drift-ppb ports-json } sprintf ;
+    sprintf ;
 
 ! Serialize array of allan-point into JSON
 :: allan-points>json ( pts -- json-str )
     pts [| pt |
+        pt tau>> pt adev>> pt mdev>> pt tdev>>
         "{\"tau\":%.4f,\"adev\":%.6e,\"mdev\":%.6e,\"tdev\":%.6e}"
-        { pt tau>> pt adev>> pt mdev>> pt tdev>> } sprintf
+        sprintf
     ] map "," join :> items
     "[" items "]" surround ;
 
@@ -58,8 +61,9 @@ IN: escapement.telemetry.json
 :: mtie-points>json ( pts -- json-str )
     pts [| pt |
         pt pass?>> json-boolean :> p-str
+        pt tau>> pt mtie>> pt prc-mask-limit>> p-str
         "{\"tau\":%.4f,\"mtieNs\":%.3f,\"limitNs\":%.3f,\"pass\":%s}"
-        { pt tau>> pt mtie>> pt prc-mask-limit>> p-str } sprintf
+        sprintf
     ] map "," join :> items
     "[" items "]" surround ;
 
@@ -70,13 +74,6 @@ IN: escapement.telemetry.json
     st frequency-drift-ppb>> :> drift
     st ports>> first port-state>> :> ps
 
-    "# HELP ptp_offset_nanoseconds Current master clock offset in nanoseconds\n"
-    "# TYPE ptp_offset_nanoseconds gauge\n"
-    "ptp_offset_nanoseconds{clock_id=\"%s\"} %.3f\n"
-    "# HELP ptp_frequency_adjustment_ppb Current servo frequency adjustment in parts-per-billion\n"
-    "# TYPE ptp_frequency_adjustment_ppb gauge\n"
-    "ptp_frequency_adjustment_ppb{clock_id=\"%s\"} %.3f\n"
-    "# HELP ptp_port_state IEEE 1588 port state enum\n"
-    "# TYPE ptp_port_state gauge\n"
-    "ptp_port_state{clock_id=\"%s\",port=\"1\"} %d\n"
-    { cid offset cid drift cid ps } sprintf ;
+    cid offset cid drift cid ps
+    "# HELP ptp_offset_nanoseconds Current master clock offset in nanoseconds\n# TYPE ptp_offset_nanoseconds gauge\nptp_offset_nanoseconds{clock_id=\"%s\"} %.3f\n# HELP ptp_frequency_adjustment_ppb Current servo frequency adjustment in parts-per-billion\n# TYPE ptp_frequency_adjustment_ppb gauge\nptp_frequency_adjustment_ppb{clock_id=\"%s\"} %.3f\n# HELP ptp_port_state IEEE 1588 port state enum\n# TYPE ptp_port_state gauge\nptp_port_state{clock_id=\"%s\",port=\"1\"} %d\n"
+    sprintf ;

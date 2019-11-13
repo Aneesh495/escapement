@@ -22,7 +22,9 @@ TUPLE: impairment-channel
 
 ! Generate synthetic zero-mean jitter
 :: sample-jitter ( stddev -- jitter-ns )
-    12 [ 1.0 random ] map-sum 6.0 - stddev * ;
+    0.0 :> s!
+    12 [| i | 1.0 random s + s! ] each-integer
+    s 6.0 - stddev * ;
 
 ! Calculate transit delay across channel for forward direction
 :: channel-forward-delay ( chan -- delay-ns dropped? )

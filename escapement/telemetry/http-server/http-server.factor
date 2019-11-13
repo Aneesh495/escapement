@@ -28,19 +28,22 @@ TUPLE: telemetry-server
             path {
                 { "/api/v1/status" [
                     engine engine-state>json :> body
+                    body length body
                     "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: %d\r\n\r\n%s"
-                    { body length body } sprintf write
+                    sprintf write
                 ] }
                 { "/metrics" [
                     engine engine-state>prometheus :> body
+                    body length body
                     "HTTP/1.1 200 OK\r\nContent-Type: text/plain; version=0.0.4\r\nAccess-Control-Allow-Origin: *\r\nContent-Length: %d\r\n\r\n%s"
-                    { body length body } sprintf write
+                    sprintf write
                 ] }
                 [
                     drop
                     "{\"error\":\"Endpoint not found\",\"service\":\"escapement\"}" :> body
+                    body length body
                     "HTTP/1.1 404 Not Found\r\nContent-Type: application/json\r\nContent-Length: %d\r\n\r\n%s"
-                    { body length body } sprintf write
+                    sprintf write
                 ]
             } case
         ] [
