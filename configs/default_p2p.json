@@ -1,0 +1,21 @@
+{
+  "profile": "IEEE_1588_DEFAULT_P2P",
+  "domainNumber": 0,
+  "delayMechanism": "PEER_TO_PEER",
+  "priority1": 128,
+  "priority2": 128,
+  "clockClass": 248,
+  "clockAccuracy": 254,
+  "offsetScaledLogVariance": 65535,
+  "logAnnounceInterval": 1,
+  "announceReceiptTimeout": 3,
+  "logSyncInterval": 0,
+  "logMinPdelayReqInterval": 0,
+  "servo": {
+    "type": "PI",
+    "kp": 0.2,
+    "ki": 0.005,
+    "kd": 0.001,
+    "maxPpb": 500000.0
+  }
+}

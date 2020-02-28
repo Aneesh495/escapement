@@ -1,0 +1,20 @@
+{
+  "profile": "IEEE_1588_DEFAULT_E2E",
+  "domainNumber": 0,
+  "delayMechanism": "END_TO_END",
+  "priority1": 128,
+  "priority2": 128,
+  "clockClass": 248,
+  "clockAccuracy": 254,
+  "offsetScaledLogVariance": 65535,
+  "logAnnounceInterval": 1,
+  "announceReceiptTimeout": 3,
+  "logSyncInterval": 0,
+  "logMinDelayReqInterval": 0,
+  "servo": {
+    "type": "KALMAN",
+    "qPhase": 0.1,
+    "qFreq": 0.01,
+    "rMeas": 50.0
+  }
+}

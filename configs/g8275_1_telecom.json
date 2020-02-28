@@ -1,0 +1,22 @@
+{
+  "profile": "ITU_T_G8275_1",
+  "domainNumber": 24,
+  "delayMechanism": "END_TO_END",
+  "priority1": 128,
+  "priority2": 128,
+  "clockClass": 6,
+  "clockAccuracy": 33,
+  "offsetScaledLogVariance": 4096,
+  "logAnnounceInterval": -3,
+  "announceReceiptTimeout": 3,
+  "logSyncInterval": -4,
+  "logMinDelayReqInterval": -4,
+  "multicast": true,
+  "transport": "IEEE_802_3_ETHERNET",
+  "servo": {
+    "type": "KALMAN",
+    "qPhase": 0.05,
+    "qFreq": 0.005,
+    "rMeas": 20.0
+  }
+}

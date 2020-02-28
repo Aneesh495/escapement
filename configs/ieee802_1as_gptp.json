@@ -1,0 +1,16 @@
+{
+  "profile": "IEEE_802_1AS_GPTP",
+  "domainNumber": 0,
+  "delayMechanism": "PEER_TO_PEER",
+  "priority1": 248,
+  "priority2": 248,
+  "clockClass": 248,
+  "clockAccuracy": 254,
+  "offsetScaledLogVariance": 16640,
+  "logAnnounceInterval": 0,
+  "announceReceiptTimeout": 3,
+  "logSyncInterval": -3,
+  "logMinPdelayReqInterval": 0,
+  "neighborPropDelayThreshNs": 800,
+  "transport": "IEEE_802_3_ETHERNET"
+}
