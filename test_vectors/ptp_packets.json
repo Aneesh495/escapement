@@ -1,0 +1,26 @@
+[
+  {
+    "description": "Standard two-step Sync message (sequence ID 1)",
+    "hex": "0002002c000002000000000000000000000000000102030405060708000100010000000065000000075bcd15",
+    "expectedMessageType": 0,
+    "expectedSequenceId": 1,
+    "expectedTwoStep": true,
+    "expectedCorrectionFieldScaledNs": 0
+  },
+  {
+    "description": "Matching Follow_Up message with sub-nanosecond correction field (+15.5 ns)",
+    "hex": "0802002c0000000000000000000f8000000000000102030405060708000100010200000065000000075bcd15",
+    "expectedMessageType": 8,
+    "expectedSequenceId": 1,
+    "expectedTwoStep": false,
+    "expectedCorrectionFieldScaledNs": 1015808
+  },
+  {
+    "description": "Announce message with GNSS primary reference clock quality",
+    "hex": "0b020040000000000000000000000000000000000102030405060708000100010500000065000000075bcd150025008006201000800102030405060708000020",
+    "expectedMessageType": 11,
+    "expectedSequenceId": 1,
+    "expectedGrandmasterClockClass": 6,
+    "expectedTimeSource": 32
+  }
+]
