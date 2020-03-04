@@ -1,0 +1,45 @@
+name: Escapement CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  style-and-audit:
+    name: Character & Quality Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify zero em dashes or en dashes
+        run: ./scripts/check_no_em_dash.sh
+
+  c99-simd:
+    name: C99 SIMD Core Build & Bench
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build essentials
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: Compile C99 SIMD library
+        run: make -C c_src all
+      - name: Run C99 microbenchmarks
+        run: ./c_src/bench_simd
+
+  python-sdk:
+    name: Python SDK & Protocol Conformance
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install SDK in development mode
+        run: pip install -e python/
+      - name: Run test suite
+        run: PYTHONPATH=python python3 python/test_escapement.py
