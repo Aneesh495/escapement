@@ -55,6 +55,10 @@ CONSTANT: NS-PER-SEC 1000000000
     total-ns NS-PER-SEC mod :> nsec
     sec nsec <timestamp> normalize-timestamp ;
 
+! Convert timestamp to total integer nanoseconds
+:: timestamp>nanoseconds ( ts -- total-ns )
+    ts seconds>> NS-PER-SEC * ts nanoseconds>> + ;
+
 ! Compare two timestamps: returns -1 if ts1 < ts2, 1 if ts1 > ts2, 0 if equal
 :: compare-timestamps ( ts1 ts2 -- res )
     ts1 seconds>> ts2 seconds>> <=> :> sec-res

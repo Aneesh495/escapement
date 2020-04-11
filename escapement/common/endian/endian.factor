@@ -60,12 +60,20 @@ IN: escapement.common.endian
     val -8 shift 0xFF bitand offset byte-arr set-nth
     val 0xFF bitand offset 1 + byte-arr set-nth ;
 
+! Write 16-bit signed integer in big-endian into byte-array at offset
+:: set-be-int16 ( val byte-arr offset -- )
+    val byte-arr offset set-be-uint16 ;
+
 ! Write 32-bit integer in big-endian into byte-array at offset
 :: set-be-uint32 ( val byte-arr offset -- )
     val -24 shift 0xFF bitand offset byte-arr set-nth
     val -16 shift 0xFF bitand offset 1 + byte-arr set-nth
     val -8 shift 0xFF bitand offset 2 + byte-arr set-nth
     val 0xFF bitand offset 3 + byte-arr set-nth ;
+
+! Write 32-bit signed integer in big-endian into byte-array at offset
+:: set-be-int32 ( val byte-arr offset -- )
+    val byte-arr offset set-be-uint32 ;
 
 ! Write 48-bit integer in big-endian into byte-array at offset
 :: set-be-uint48 ( val byte-arr offset -- )
