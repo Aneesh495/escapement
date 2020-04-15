@@ -59,7 +59,22 @@ IN: escapement.tests.protocol
     ann2 grandmaster-clock-quality>> clock-class>> 248 = and
     [ "pass: announce roundtrip" print ] [ "fail: announce roundtrip" throw ] if
 
-    ! 6. PathTrace TLV
+    ! 6. Pdelay message family (Peer-to-Peer)
+    0 0 pid 106 ts <ptp-pdelay-req> pack-ptp-pdelay-req unpack-ptp-pdelay-req :> preq2
+    preq2 origin-timestamp>> nanoseconds>> 5678 =
+    [ "pass: pdelay-req roundtrip" print ] [ "fail: pdelay-req roundtrip" throw ] if
+
+    0 0 pid 107 ts pid <ptp-pdelay-resp> pack-ptp-pdelay-resp unpack-ptp-pdelay-resp :> presp2
+    presp2 request-receipt-timestamp>> seconds>> 1234 =
+    presp2 requesting-port-id>> port-identity>string pid port-identity>string = and
+    [ "pass: pdelay-resp roundtrip" print ] [ "fail: pdelay-resp roundtrip" throw ] if
+
+    0 0 pid 108 ts pid <ptp-pdelay-follow-up> pack-ptp-pdelay-follow-up unpack-ptp-pdelay-follow-up :> pfup2
+    pfup2 response-origin-timestamp>> nanoseconds>> 5678 =
+    pfup2 requesting-port-id>> port-identity>string pid port-identity>string = and
+    [ "pass: pdelay-follow-up roundtrip" print ] [ "fail: pdelay-follow-up roundtrip" throw ] if
+
+    ! 7. PathTrace TLV
     cid 1array <path-trace-tlv> pack-ptp-tlv 0 unpack-ptp-tlv drop unpack-path-trace-tlv :> cids
     cids length 1 =
     cids first clock-identity>string cid clock-identity>string = and
