@@ -41,11 +41,23 @@ IN: escapement.tests.bmca
     128 6 0x20 0x1000 128 cid1 3 cid2 1 <port-identity> 1 <priority-vector> :> pv-step3
     pv-step1 pv-step3 vector-better? [ "pass: steps-removed comparison" print ] [ "fail: steps-removed" throw ] if
 
+    ! Test 5b: Priority 2 tiebreaker comparison
+    128 6 0x20 0x1000 100 cid1 0 cid1 1 <port-identity> 1 <priority-vector> :> pv-p2-low
+    128 6 0x20 0x1000 200 cid1 0 cid1 1 <port-identity> 1 <priority-vector> :> pv-p2-high
+    pv-p2-low pv-p2-high vector-better? [ "pass: priority2 tiebreaker" print ] [ "fail: priority2" throw ] if
+
     ! Test 6: State transition from INITIALIZING -> LISTENING -> MASTER on timeout
     PORT-STATE-INITIALIZING EV-INITIALIZE 0 transition-port-state :> ps1
     ps1 PORT-STATE-LISTENING = [ "pass: transition to listening" print ] [ "fail: listening" throw ] if
 
     ps1 EV-ANNOUNCE-RECEIPT-TIMEOUT 0 transition-port-state :> ps2
     ps2 PORT-STATE-MASTER = [ "pass: announce timeout to master" print ] [ "fail: master timeout" throw ] if
+
+    ! Test 7: State transition from LISTENING -> UNCALIBRATED -> SLAVE
+    ps1 EV-STATE-DECISION DECISION-S1 transition-port-state :> ps3
+    ps3 PORT-STATE-UNCALIBRATED = [ "pass: listening to uncalibrated" print ] [ "fail: uncalibrated transition" throw ] if
+
+    ps3 EV-SYNCHRONIZATION-ACHIEVED 0 transition-port-state :> ps4
+    ps4 PORT-STATE-SLAVE = [ "pass: uncalibrated to slave" print ] [ "fail: slave transition" throw ] if
 
     "All BMCA & State Machine conformance tests passed successfully." print ;
