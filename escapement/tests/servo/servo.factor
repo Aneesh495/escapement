@@ -28,6 +28,15 @@ IN: escapement.tests.servo
     kf phase-est>> 9.0 >= kf phase-est>> 11.0 <= and
     [ "pass: kalman filter phase convergence" print ] [ "fail: kalman phase" throw ] if
 
+    ! 2b. Kalman Filter Frequency Ramp Estimation
+    default-kalman-servo :> kf2
+    ! Feed linear phase progression: 50 ns per second (50 ppb drift)
+    80 [| i |
+        i >float 0.125 * 50.0 * 0.125 kf2 kalman-servo-step drop
+    ] each-integer
+    kf2 freq-est>> 40.0 >= kf2 freq-est>> 60.0 <= and
+    [ "pass: kalman frequency drift tracking" print ] [ "fail: kalman freq tracking" throw ] if
+
     ! 3. Linear Regression Fit
     10 <linear-drift-estimator> :> est
     0.0 5.0 est estimator-add-sample
