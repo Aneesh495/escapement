@@ -27,8 +27,17 @@ IN: escapement.tests.stability
     phase-samples 0.1 compute-stability-curve :> pts
     pts length 0 > [ "pass: stability curve generation" print ] [ "fail: curve" throw ] if
 
+    ! 3b. MDEV and TDEV metrics validation
+    pts first mdev>> 0.0 >
+    pts first tdev>> 0.0 > and
+    [ "pass: mdev and tdev metrics positive" print ] [ "fail: mdev/tdev" throw ] if
+
     ! 4. MTIE peak-to-peak calculation
     phase-samples 10 compute-mtie-at-window :> mtie-10
     mtie-10 0.0 > [ "pass: mtie peak-to-peak positive" print ] [ "fail: mtie" throw ] if
+
+    ! 4b. MTIE window expansion monotonicity
+    phase-samples 20 compute-mtie-at-window :> mtie-20
+    mtie-20 mtie-10 >= [ "pass: mtie monotonic window scaling" print ] [ "fail: mtie monotonicity" throw ] if
 
     "All Stability Analysis unit tests passed successfully." print ;
