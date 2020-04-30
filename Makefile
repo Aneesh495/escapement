@@ -16,6 +16,7 @@ build-c:
 test: test-c test-factor test-python
 
 test-c: build-c
+	./c_src/test_simd
 	./c_src/bench_simd
 
 test-factor:

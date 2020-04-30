@@ -14,8 +14,9 @@ endif
 
 LIB_TARGET = ../libescapement_simd.$(DYLIB_EXT)
 BENCH_TARGET = bench_simd
+TEST_TARGET = test_simd
 
-all: $(LIB_TARGET) $(BENCH_TARGET)
+all: $(LIB_TARGET) $(BENCH_TARGET) $(TEST_TARGET)
 
 $(LIB_TARGET): escapement_simd.c escapement_simd.h
 	$(CC) $(CFLAGS) $(SHARED_FLAG) $(ARCH_FLAGS) -o $@ escapement_simd.c -lm
@@ -23,7 +24,10 @@ $(LIB_TARGET): escapement_simd.c escapement_simd.h
 $(BENCH_TARGET): bench_simd.c escapement_simd.c escapement_simd.h
 	$(CC) $(CFLAGS) $(ARCH_FLAGS) -o $@ bench_simd.c escapement_simd.c -lm
 
+$(TEST_TARGET): test_simd.c escapement_simd.c escapement_simd.h
+	$(CC) $(CFLAGS) $(ARCH_FLAGS) -o $@ test_simd.c escapement_simd.c -lm
+
 clean:
-	rm -f $(LIB_TARGET) $(BENCH_TARGET) *.o
+	rm -f $(LIB_TARGET) $(BENCH_TARGET) $(TEST_TARGET) *.o
 
 .PHONY: all clean
