@@ -43,12 +43,15 @@ class NetworkSimulator:
         config: Optional[ChannelConfig] = None,
         initial_offset_ns: float = 1500.0,
         initial_drift_ppb: float = 45.0,
+        seed: Optional[int] = 42,
     ):
         self.config = config or ChannelConfig()
         self.initial_offset_ns = initial_offset_ns
         self.initial_drift_ppb = initial_drift_ppb
+        self.seed = seed
 
     def run(self, num_epochs: int = 60, epoch_interval_sec: float = 0.125) -> SimulationResult:
+        rng = random.Random(self.seed) if self.seed is not None else random.Random()
         # Master clock starts at 0.0 ns, zero drift
         master_time_ns = 0.0
 
@@ -80,13 +83,13 @@ class NetworkSimulator:
             slave_time_ns += actual_elapsed_ns
 
             # Sample transit delay forward (Master -> Slave)
-            fwd_jitter = random.gauss(0.0, self.config.jitter_stddev_ns)
-            fwd_burst = self.config.burst_delay_ns if random.random() < self.config.burst_probability else 0.0
+            fwd_jitter = rng.gauss(0.0, self.config.jitter_stddev_ns)
+            fwd_burst = self.config.burst_delay_ns if rng.random() < self.config.burst_probability else 0.0
             t_fwd = max(10.0, self.config.fwd_delay_ns + fwd_jitter + fwd_burst)
 
             # Sample transit delay reverse (Slave -> Master)
-            rev_jitter = random.gauss(0.0, self.config.jitter_stddev_ns)
-            rev_burst = self.config.burst_delay_ns if random.random() < self.config.burst_probability else 0.0
+            rev_jitter = rng.gauss(0.0, self.config.jitter_stddev_ns)
+            rev_burst = self.config.burst_delay_ns if rng.random() < self.config.burst_probability else 0.0
             t_rev = max(10.0, self.config.rev_delay_ns + rev_jitter + rev_burst)
 
             # Four PTP timestamps

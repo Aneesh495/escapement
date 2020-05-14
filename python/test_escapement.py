@@ -205,5 +205,19 @@ class TestMtieValidator(unittest.TestCase):
         self.assertEqual(pts[0].mtie_ns, 0.0)
 
 
+class TestTypesAndClient(unittest.TestCase):
+    def test_clock_identity_parsing(self):
+        cid = ClockIdentity.from_string("01:02:03:04:05:06:07:08")
+        self.assertEqual(str(cid), "01:02:03:04:05:06:07:08")
+        self.assertEqual(cid.data, bytes([1, 2, 3, 4, 5, 6, 7, 8]))
+
+    def test_timestamp_conversions(self):
+        ts = Timestamp.from_float(1700000000.5)
+        self.assertEqual(ts.seconds, 1700000000)
+        self.assertEqual(ts.nanoseconds, 500000000)
+        self.assertAlmostEqual(ts.to_float(), 1700000000.5)
+        self.assertEqual(ts.to_nanoseconds(), 1700000000500000000)
+
+
 if __name__ == "__main__":
     unittest.main()
