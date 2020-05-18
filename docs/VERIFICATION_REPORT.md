@@ -6,15 +6,15 @@ This document records the verification matrix, edge case test coverage, and auto
 
 | Subsystem | Suite | Test Cases | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| **Common** | `escapement.tests.common` | 11 | PASS | Big-endian codecs, ring buffer stats, identity equality |
-| **Protocol** | `escapement.tests.protocol` | 7 | PASS | 34-byte common header, event/general codecs, PathTrace TLVs |
-| **BMCA** | `escapement.tests.bmca` | 7 | PASS | Clause 9.3.4 DCA tie-breakers, Clause 9.2 port state machine |
-| **Servo** | `escapement.tests.servo` | 4 | PASS | PI anti-windup clamp, Kalman phase convergence, linear fit |
-| **Stability**| `escapement.tests.stability`| 4 | PASS | Allan deviation, multi-tau stability curves, MTIE peak-to-peak |
+| **Common** | `escapement.tests.common` | 16 | PASS | Big-endian codecs, signed ints, ring buffer stats, identity equality |
+| **Protocol** | `escapement.tests.protocol` | 10 | PASS | 34-byte common header, event/general codecs, peer delay family, PathTrace TLVs |
+| **BMCA** | `escapement.tests.bmca` | 10 | PASS | Clause 9.3.4 DCA tie-breakers, Clause 9.2 port state machine, priority2 |
+| **Servo** | `escapement.tests.servo` | 5 | PASS | PI anti-windup clamp, Kalman phase convergence, frequency ramp tracking, linear fit |
+| **Stability**| `escapement.tests.stability`| 6 | PASS | Allan deviation, multi-tau stability curves, MDEV/TDEV, MTIE monotonic scaling |
 | **Integration**| `escapement.tests.integration`| 3 | PASS | End-to-end multi-node synchronization, master failover |
-| **C99 SIMD**| `c_src/bench_simd` | 4 | PASS | NEON/AVX2 header validation, vectorized ADEV, Kalman step |
-| **Python SDK**| `python/test_escapement.py`| 15 | PASS | Wire codec parity, simulator convergence, G.811 mask checks |
-| **Total** | | **55** | **100% PASS** | Zero failures, zero errors |
+| **C99 SIMD**| `c_src/test_simd` & `bench_simd` | 7 | PASS | NEON/AVX2 header validation, numerical stability, vectorized ADEV, Kalman step |
+| **Python SDK**| `python/test_escapement.py`| 17 | PASS | Wire codec parity, simulator convergence, G.811 mask checks, type conversions |
+| **Total** | | **74** | **100% PASS** | Zero failures, zero errors |
 
 ## Edge Cases Verified
 
