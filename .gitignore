@@ -8,6 +8,8 @@ target/
 *.a
 *.image
 *.image.fresh
+bench_simd
+test_simd
 
 # Factor artifacts
 .factor-roots
