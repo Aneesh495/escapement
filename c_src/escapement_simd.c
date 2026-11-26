@@ -5,6 +5,7 @@
  * and high-resolution time access.
  */
 
+#define _POSIX_C_SOURCE 200809L
 #include "escapement_simd.h"
 #include <time.h>
 #include <string.h>
