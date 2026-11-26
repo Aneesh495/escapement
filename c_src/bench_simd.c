@@ -5,6 +5,7 @@
  * Allan variance calculation, and Kalman filter iterations.
  */
 
+#define _POSIX_C_SOURCE 200809L
 #include "escapement_simd.h"
 #include <stdio.h>
 #include <stdlib.h>
