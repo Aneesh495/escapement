@@ -15,7 +15,7 @@ jobs:
     name: Character & Quality Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify zero em dashes or en dashes
         run: ./scripts/check_no_em_dash.sh
 
@@ -23,7 +23,7 @@ jobs:
     name: C99 SIMD Core Build & Bench
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install build essentials
         run: sudo apt-get update && sudo apt-get install -y build-essential
       - name: Compile C99 SIMD library
@@ -38,7 +38,7 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
